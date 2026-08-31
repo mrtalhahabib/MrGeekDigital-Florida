@@ -214,6 +214,12 @@
       'Florida Keys':     { agents: 6,  kws: 73,  sub: 'Monroe County · Island Keys' }
     };
 
+    var CITY_SLUGS = {
+      'Miami':'miami','Fort Lauderdale':'fort-lauderdale','West Palm Beach':'west-palm-beach',
+      'Naples':'naples','Fort Myers':'fort-myers','Sarasota':'sarasota','Tampa':'tampa',
+      'St. Petersburg':'st-petersburg','Orlando':'orlando','Jacksonville':'jacksonville'
+    };
+
     function setActive(city, animateNums) {
       var data = CITY_DATA[city];
       if (!data) return;
@@ -225,6 +231,11 @@
       } else {
         agentsEl.textContent = data.agents;
         kwsEl.textContent = data.kws;
+      }
+      var go = document.querySelector('.city-card__go');
+      if (go) {
+        var slug = CITY_SLUGS[city];
+        go.setAttribute('href', slug ? 'florida-markets/' + slug + '.html' : '#statewide-note');
       }
       dots.forEach(function (d) {
         d.classList.toggle('is-active', d.getAttribute('data-city') === city);
@@ -269,6 +280,19 @@
         chip.textContent = city;
         chip.addEventListener('click', function () { setActive(city, true); });
         chipsWrap.appendChild(chip);
+      });
+    }
+
+    // markets hub: dots link to city pages
+    var mapNav = document.querySelector('.map-wrap[data-nav]');
+    if (mapNav) {
+      dots.forEach(function (dot) {
+        var href = dot.getAttribute('data-href');
+        if (!href) return;
+        dot.addEventListener('click', function () { window.location.href = href; });
+        dot.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') window.location.href = href;
+        });
       });
     }
 
