@@ -300,31 +300,55 @@
   })();
 
   /* ------------------------------------------------------------------
-     7. Audit form (static site — demo submit)
+     7. Forms — honeypot check + redirect to thank-you
+        (connect a real form service by removing data-redirect and
+         pointing the form action at your endpoint)
   ------------------------------------------------------------------ */
-  (function auditForm() {
-    var form = document.getElementById('audit-form');
+  (function siteForms() {
+    function depthPrefix() {
+      var slashes = (window.location.pathname.match(/\//g) || []).length;
+      return slashes > 1 ? '../' : '';
+    }
+    document.querySelectorAll('form[data-redirect]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var trap = form.querySelector('input[name="company_website"]');
+        if (trap && trap.value) return; // bot: silently drop
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        window.location.href = depthPrefix() + 'thank-you.html';
+      });
+    });
+  })();
+
+  /* ------------------------------------------------------------------
+     9b. Blog: category filter + newsletter
+  ------------------------------------------------------------------ */
+  (function blogFilter() {
+    var wrap = document.getElementById('cat-filter');
+    if (!wrap) return;
+    var cards = document.querySelectorAll('#blog-cards [data-cat]');
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-cat]');
+      if (!btn) return;
+      wrap.querySelectorAll('button').forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var cat = btn.getAttribute('data-cat');
+      cards.forEach(function (c) {
+        c.classList.toggle('is-hidden', cat !== 'all' && c.getAttribute('data-cat') !== cat);
+      });
+    });
+  })();
+
+  (function newsletter() {
+    var form = document.getElementById('news-form');
     if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      var name = (document.getElementById('f-name').value || '').trim().split(' ')[0] || 'there';
-      var wrap = form.closest('.audit__form-wrap');
-      wrap.innerHTML =
-        '<div class="form-success" role="status">' +
-          '<div class="big"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>' +
-          '<h3>Thanks, ' + escapeHtml(name) + ' — request received.</h3>' +
-          '<p>Your free Florida SEO audit will land in your inbox within 24 hours. We\u2019ll follow up by phone if we spot something urgent.</p>' +
-        '</div>';
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      form.innerHTML = '<span style="display:inline-flex;align-items:center;gap:9px;font-weight:600;color:#B5CC2E">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
+        'You\u2019re in \u2014 first Brief lands next month.</span>';
     });
-    function escapeHtml(str) {
-      var div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
   })();
 
   /* ------------------------------------------------------------------
