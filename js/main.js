@@ -351,6 +351,25 @@
     });
   })();
 
+
+  /* ------------------------------------------------------------------
+     11. Active nav state
+  ------------------------------------------------------------------ */
+  (function activeNav() {
+    var path = window.location.pathname.replace(/\/index\.html$/, '/');
+    if (!path.endsWith('/')) path = path.replace(/\.html$/, '');
+    var here = path.split('/').filter(Boolean).pop() || '';
+    var prefix = (window.location.pathname.match(/\//g) || []).length > 1 ? '../' : '';
+    document.querySelectorAll('.nav__menu .nav__link').forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      if (href === '#' ) return;
+      var clean = href.replace(prefix, '').replace('index.html', '').replace('.html', '').replace(/\/$/, '');
+      var key = clean.split('/').filter(Boolean).pop() || 'home';
+      var pageKey = here || 'home';
+      if (key === pageKey) a.classList.add('is-active');
+    });
+  })();
+
   /* ------------------------------------------------------------------
      8. Ensure anchor links land below the sticky header
   ------------------------------------------------------------------ */

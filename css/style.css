@@ -32,7 +32,7 @@
   /* Brand colors — locked to logo */
   --green:        #B5CC2E;
   --green-dark:   #A2BA1F;
-  --green-deep:   #8AA312;
+  --green-deep:   #8FA51F;
   --green-soft:   #E9F2BC;
   --green-faint:  rgba(181, 204, 46, 0.12);
 
@@ -252,7 +252,7 @@ section[id] { scroll-margin-top: 92px; }
 
 .btn-green {
   background: var(--green);
-  color: #1F240B;
+  color: #333333;
   box-shadow: 0 10px 24px rgba(138, 163, 18, 0.32);
 }
 .btn-green:hover {
@@ -350,6 +350,15 @@ section[id] { scroll-margin-top: 92px; }
   transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
 }
 .nav__link:hover { color: var(--green-deep); background: var(--offwhite); }
+.nav__link.is-active { color: var(--green-deep); }
+.nav__link.is-active::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: var(--green);
+  margin-top: 4px;
+  border-radius: 2px;
+}
 .nav__link .chev { width: 12px; height: 12px; transition: transform 0.18s var(--ease); color: var(--ink-faint); }
 .has-dd:hover .chev, .has-dd:focus-within .chev { transform: rotate(180deg); }
 
@@ -1113,7 +1122,7 @@ body.menu-open { overflow: hidden; }
   height: 46px;
   border-radius: 50%;
   background: var(--green);
-  color: #1F240B;
+  color: #333333;
   display: grid;
   place-items: center;
   box-shadow: 0 6px 16px rgba(138, 163, 18, 0.4);
