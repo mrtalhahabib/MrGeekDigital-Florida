@@ -341,5 +341,74 @@
       window.scrollTo({ top: top, behavior: prefersReduced ? 'auto' : 'smooth' });
     });
   });
+/* ------------------------------------------------------------------
+     9. Case studies hub filter
+  ------------------------------------------------------------------ */
+  (function caseFilter() {
+    var gridTop = document.getElementById('cs-grid');
+    var gridBottom = document.getElementById('cs-grid-bottom');
+    var citySel = document.getElementById('cs-city');
+    var svcSel = document.getElementById('cs-service');
+    var countEl = document.getElementById('cs-count');
+    if (!gridTop || !citySel || !svcSel) return;
+
+    function applyFilter() {
+      var city = citySel.value;
+      var svc = svcSel.value;
+      var shown = 0;
+      var cards = document.querySelectorAll('#cs-grid .cscard, #cs-grid-bottom .cscard');
+      cards.forEach(function (card) {
+        var okCity = city === 'all' || card.getAttribute('data-city') === city;
+        var svcs = (card.getAttribute('data-services') || '').split(',');
+        var okSvc = svc === 'all' || svcs.indexOf(svc) !== -1;
+        var show = okCity && okSvc;
+        card.classList.toggle('is-hidden', !show);
+        if (show) shown++;
+      });
+      if (countEl) countEl.innerHTML = '<b>' + shown + '</b> case studies';
+    }
+    citySel.addEventListener('change', applyFilter);
+    svcSel.addEventListener('change', applyFilter);
+    applyFilter();
+  })();
+
+  /* ------------------------------------------------------------------
+     10. Pricing ROI calculator
+  ------------------------------------------------------------------ */
+  (function roiCalc() {
+    var wrap = document.getElementById('roi-calc');
+    if (!wrap) return;
+    var planSel = document.getElementById('roi-plan');
+    var commIn = document.getElementById('roi-comm');
+    var leadsIn = document.getElementById('roi-leads');
+    var dealsEl = document.getElementById('roi-deals');
+    var monthsEl = document.getElementById('roi-months');
+    var lineEl = document.getElementById('roi-line');
+    var planNames = { '997': 'Local Starter', '1997': 'Market Leader', '3497': 'Luxury & Multi-City' };
+
+    function fmt(n) { return n.toLocaleString('en-US'); }
+    function calc() {
+      var price = parseFloat(planSel.value) || 997;
+      var comm = parseFloat(commIn.value) || 0;
+      var plan = planNames[String(price)] || 'this plan';
+      if (comm < 500) {
+        dealsEl.textContent = '\u2014';
+        monthsEl.textContent = '0.0';
+        lineEl.textContent = 'Enter your average commission to see the math.';
+        return;
+      }
+      var ratio = comm / price;
+      var months = Math.round(ratio * 10) / 10;
+      dealsEl.textContent = '1';
+      monthsEl.textContent = months.toFixed(1);
+      lineEl.textContent = 'At $' + fmt(comm) + ' per closing, one extra deal covers ' +
+        (months >= 1 ? 'roughly ' + months.toFixed(1) + ' months' : 'part of a month') + ' of ' + plan + '.';
+    }
+    [planSel, commIn, leadsIn].forEach(function (el) {
+      el.addEventListener('input', calc);
+      el.addEventListener('change', calc);
+    });
+    calc();
+  })();
 
 })();
