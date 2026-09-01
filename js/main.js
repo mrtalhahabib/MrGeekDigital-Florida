@@ -310,6 +310,7 @@
       return slashes > 1 ? '../' : '';
     }
     document.querySelectorAll('form[data-redirect]').forEach(function (form) {
+      if (form.hasAttribute('data-netlify')) return; // Netlify Forms: native POST + action redirect
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var trap = form.querySelector('input[name="company_website"]');

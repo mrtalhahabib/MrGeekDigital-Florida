@@ -54,6 +54,20 @@ Headings use `font-family: 'Agency FB', 'Barlow Condensed', ...`. **Agency FB is
 @font-face { font-family: 'Agency FB'; src: url('/assets/fonts/agencyfb.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 ```
 
+## Deploy on Netlify (2 ways)
+
+**A. Drag & drop (fastest — 1 minute):**
+1. Extract `mrgeek-website.zip`
+2. Go to **https://app.netlify.com/drop**
+3. Drag the extracted folder onto the page → live URL (`something.netlify.app`)
+
+**B. Connect GitHub (auto-deploy on every push):**
+1. Netlify → **Add new site → Import an existing project → GitHub**
+2. Repo: `mrtalhahabib/MrGeekDigital-Florida` · Branch: `arena/01a02883-mrgeekdigital-florida`
+3. Build command: **(khali)** · Publish directory: **`.`** (sirf dot) → Deploy
+
+**Already configured:** `netlify.toml` (publish dir, cache + security headers) · `_redirects` (`/audit`, `/freeaudit` short links + 301 aliases) · **Forms** (`data-netlify` + honeypot + `action="thank-you.html"` — submissions Netlify ke **Forms tab** mein, user ko thank-you page) · `404.html` automatic. Custom domain: Site settings → Domain management.
+
 ## Local preview & deploy
 
 ```

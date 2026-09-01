@@ -300,7 +300,7 @@
         <div class="auditpage__formcard reveal" data-delay="1" id="get-audit">
           <h3>Send Me My Free Audit</h3>
           <p>Takes 30 seconds. Audit lands in your inbox within 24 hours.</p>
-          <form id="audit-form" novalidate data-redirect action="https://formspree.io/your-form-id" method="post">
+          <form id="audit-form" name="free-seo-audit" method="POST" novalidate data-netlify="true" netlify-honeypot="company_website" action="thank-you.html">
             <input type="text" name="company_website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px">
             <div class="form-grid">
               <div class="field"><label for="f-name">Full name <span>*</span></label><input id="f-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required></div>

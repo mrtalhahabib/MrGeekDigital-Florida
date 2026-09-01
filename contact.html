@@ -267,7 +267,7 @@
         <div class="auditpage__formcard reveal" style="position:static">
           <h3>Send a Message</h3>
           <p>We reply within one business day &mdash; usually faster.</p>
-          <form id="contact-form" novalidate data-redirect action="https://formspree.io/your-form-id" method="post">
+          <form id="contact-form" name="contact" method="POST" novalidate data-netlify="true" netlify-honeypot="company_website" action="thank-you.html">
             <input type="text" name="company_website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px">
             <div class="form-grid">
               <div class="field"><label for="c-name">Full name <span>*</span></label><input id="c-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required></div>

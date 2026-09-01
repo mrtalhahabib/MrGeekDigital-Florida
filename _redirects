@@ -1,0 +1,10 @@
+# Netlify redirects — MrGeek Digital Marketing Agency
+# 404.html is picked up automatically by Netlify for missing pages.
+
+/audit            /free-seo-audit.html   301
+/freeaudit        /free-seo-audit.html   301
+/free-audit       /free-seo-audit.html   301
+/home             /                      301
+/agents           /florida-markets/      301
+/results          /case-studies/         301
+/florida-markets/st-pete   /florida-markets/st-petersburg.html   301
